@@ -1,0 +1,326 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Flask API",
+    "description": "API for managing financial entries - Created by Anshuman Singh, Krishna Kumar, Mohit Dubey, Shivam Singh Barman",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    },
+    {
+      "url": "http://127.0.0.1:5000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "finance",
+      "description": "CRUD Operations for Financial Entries"
+    }
+  ],
+  "paths": {
+    "/entries": {
+      "get": {
+        "tags": [
+          "finance"
+        ],
+        "summary": "Retrieve all financial entries",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FinancialEntry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "finance"
+        ],
+        "summary": "Create a financial entry",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2024-09-01 10:00:00"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 1500.0
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "Income"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Salary for September"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "income"
+                  }
+                },
+                "required": [
+                  "user_id",
+                  "date",
+                  "amount",
+                  "category",
+                  "type"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Created successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FinancialEntry"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/entries/{id}": {
+      "get": {
+        "tags": [
+          "finance"
+        ],
+        "summary": "Retrieve a specific financial entry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FinancialEntry"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entry not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "finance"
+        ],
+        "summary": "Update a financial entry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_id": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2024-09-01 10:00:00"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float",
+                    "example": 1500.0
+                  },
+                  "category": {
+                    "type": "string",
+                    "example": "Income"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "Updated salary entry"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "income"
+                  }
+                },
+                "required": [
+                  "user_id",
+                  "date",
+                  "amount",
+                  "category",
+                  "type"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Updated successfully",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/FinancialEntry"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Entry not found"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "finance"
+        ],
+        "summary": "Delete a financial entry",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted successfully"
+          },
+          "404": {
+            "description": "Entry not found"
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "tags": [
+          "finance"
+        ],
+        "summary": "Retrieve dashboard statistics",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_income": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 15000.0
+                    },
+                    "total_expenses": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 5000.0
+                    },
+                    "recent_transactions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FinancialEntry"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FinancialEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "user_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-09-01 10:00:00"
+          },
+          "amount": {
+            "type": "number",
+            "format": "float",
+            "example": 1500.0
+          },
+          "category": {
+            "type": "string",
+            "example": "Income"
+          },
+          "description": {
+            "type": "string",
+            "example": "Salary for September"
+          },
+          "type": {
+            "type": "string",
+            "example": "income"
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "date",
+          "amount",
+          "category",
+          "type"
+        ]
+      }
+    }
+  }
+}
