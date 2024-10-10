@@ -1,0 +1,302 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Flask API",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    },
+    {
+      "url": "http://127.0.0.1:5000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Personal Finance",
+      "description": "CRUD Operations"
+    }
+  ],
+  "paths": {
+    "/accounts": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Retrieve all accounts",
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Create a User account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "abc"
+                  },
+                  "firstname": {
+                    "type": "string",
+                    "example": "abc"
+                  },
+                  "lastname": {
+                    "type": "string",
+                    "example": "abc"
+                  },
+                  "Total_Expense": {
+                    "type": "integer",
+                    "example": "767897290"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "saving or current"
+                  },
+                  "Category": {
+                    "type": "string",
+                    "example": "Food"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{id}": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Retrieve specific id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Account"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Update user account",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "ID of the user to be updated"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "abc"
+                  },
+                  "firstname": {
+                    "type": "string",
+                    "example": "abc"
+                  },
+                  "lastname": {
+                    "type": "string",
+                    "example": "abc"
+                  },
+                  "Total_Expense": {
+                    "type": "integer",
+                    "example": "767897290"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "saving or current"
+                  },
+                  "Category": {
+                    "type": "string",
+                    "example": "Food"
+                  }
+                },
+                "required": [
+                  "Amount"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string",
+                      "example": "abc"
+                    },
+                    "firstname": {
+                      "type": "string",
+                      "example": "abc"
+                    },
+                    "lastname": {
+                      "type": "string",
+                      "example": "abc"
+                    },
+                    "Total_Expense": {
+                      "type": "integer",
+                      "example": "767897290"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "saving or current"
+                    },
+                    "Category": {
+                      "type": "string",
+                      "example": "Food"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Account not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "account"
+        ],
+        "summary": "Delete a User",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "description": "ID of the account to be deleted"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted successfully"
+          },
+          "404": {
+            "description": "Account not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "username": {
+            "type": "string",
+            "example": "abc"
+          },
+          "firstname": {
+            "type": "string",
+            "example": "abc"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "abc"
+          },
+          "Total_Expense": {
+            "type": "integer",
+            "example": "767897290"
+          },
+          "description": {
+            "type": "string",
+            "example": "saving or current"
+          },
+          "Category": {
+            "type": "string",
+            "example": "Food"
+          }
+        }
+      }
+    }
+  }
+}
